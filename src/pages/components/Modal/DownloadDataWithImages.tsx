@@ -1,11 +1,12 @@
-import { ReactNode, useCallback, useState } from 'react'
-import Modal from './Modal'
-import Button from '../Button';
-import { BACKEND_URL } from '../../../App';
-import axios from 'axios';
-import { useSelector } from 'react-redux';
-import { selectFilterData } from '../../../features/data';
-import fileDownload from 'js-file-download';
+import { ReactNode, useCallback, useState } from "react";
+import Modal from "./Modal";
+import Button from "../Button";
+import { BACKEND_URL } from "../../../App";
+import axios from "axios";
+import { useSelector } from "react-redux";
+import { selectFilterData } from "../../../features/data";
+import fileDownload from "js-file-download";
+import { nanoid } from "nanoid";
 
 enum fileType {
   csv,
@@ -13,11 +14,10 @@ enum fileType {
   shp,
 }
 
-
 function DownloadDataWithImages({
-  closeHandler
+  closeHandler,
 }: {
-  closeHandler: () => void
+  closeHandler: () => void;
 }) {
   const [buttonString, setButtonString] = useState<ReactNode>("Generate");
   const [isDisabled, setIsDisabled] = useState(false);
@@ -67,57 +67,75 @@ function DownloadDataWithImages({
         }
       );
       console.log(response);
-      await fileDownload(response.data, crypto.randomUUID() + ".zip");
-      setButtonString("Generate")
-      setIsDisabled(false)
+      await fileDownload(response.data, nanoid() + ".zip");
+      setButtonString("Generate");
+      setIsDisabled(false);
       // if (fileformat == filfeType.csv)
       // else if (fileformat == fileType.xlsx)
-      //   fileDownload(response.data, crypto.randomUUID() + ".xlsx");
+      //   fileDownload(response.data, nanoid()() + ".xlsx");
     }
     generator();
   }, [filterData, archiveFormat]);
 
   const radioClassName = "accent-red-500 w-5 h-5";
-  const spanClassName = "py-1 w-fit gap-2 flex items-center text-xl"
+  const spanClassName = "py-1 w-fit gap-2 flex items-center text-xl";
   return (
     <Modal closeHandler={closeHandler}>
-      <div className='bg-white bg-opacity-75 p-4 rounded-lg'>
-        <div className='text-xl font-semibold'>
-          Select the type of data
-        </div>
-        <form action="" className='flex flex-col'>
+      <div className="bg-white bg-opacity-75 p-4 rounded-lg">
+        <div className="text-xl font-semibold">Select the type of data</div>
+        <form action="" className="flex flex-col">
           <span className={spanClassName}>
-            <input type="radio" name="some" id="csvGDF" className={radioClassName} onClick={() => {
-              setArchiveFormat(fileType.csv)
-            }} />
+            <input
+              defaultChecked
+              type="radio"
+              name="some"
+              id="csvGDF"
+              className={radioClassName}
+              onClick={() => {
+                setArchiveFormat(fileType.csv);
+              }}
+            />
             <label htmlFor="csvGDF">CSV</label>
           </span>
           <span className={spanClassName}>
-            <input type="radio" name="some" id="xlsxGDF" className={radioClassName} onClick={() => {
-              setArchiveFormat(fileType.xlsx)
-            }} />
+            <input
+              type="radio"
+              name="some"
+              id="xlsxGDF"
+              className={radioClassName}
+              onClick={() => {
+                setArchiveFormat(fileType.xlsx);
+              }}
+            />
             <label htmlFor="xlsxGDF">XLSX</label>
           </span>
           <span>
-
-            <Button disabled={isDisabled} onClick={async (event) => {
-              setButtonString("Generating..")
-              setIsDisabled(true);
-              event.preventDefault()
-              // functionalities
-              await generateArchiveRequest();
-            }} className='mt-2'>{buttonString}</Button>
-            <Button onClick={(event) => {
-              event.preventDefault()
-              closeHandler()
-            }}>
+            <Button
+              disabled={isDisabled}
+              onClick={async (event) => {
+                setButtonString("Generating..");
+                setIsDisabled(true);
+                event.preventDefault();
+                // functionalities
+                await generateArchiveRequest();
+              }}
+              className="mt-2"
+            >
+              {buttonString}
+            </Button>
+            <Button
+              onClick={(event) => {
+                event.preventDefault();
+                closeHandler();
+              }}
+            >
               Close
             </Button>
           </span>
         </form>
       </div>
     </Modal>
-  )
+  );
 }
 
-export default DownloadDataWithImages
+export default DownloadDataWithImages;

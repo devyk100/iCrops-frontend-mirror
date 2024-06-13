@@ -1,27 +1,24 @@
-import { ReactNode, useCallback, useState } from 'react'
-import Modal from './Modal'
-import Button from '../Button';
-import { BACKEND_URL } from '../../../App';
-import { selectFilterData } from '../../../features/data';
-import { useSelector } from 'react-redux';
-import axios from 'axios';
-import fileDownload from 'js-file-download';
+import { ReactNode, useCallback, useState } from "react";
+import Modal from "./Modal";
+import Button from "../Button";
+import { BACKEND_URL } from "../../../App";
+import { selectFilterData } from "../../../features/data";
+import { useSelector } from "react-redux";
+import axios from "axios";
+import fileDownload from "js-file-download";
+import { nanoid } from "nanoid";
+
 enum fileType {
   csv,
   xlsx,
   shp,
 }
 
-
-function GenerateDataFile({
-  closeHandler
-}: {
-  closeHandler: () => void
-}) {
+function GenerateDataFile({ closeHandler }: { closeHandler: () => void }) {
   const filterData = useSelector(selectFilterData);
   const [fileformat, setFileformat] = useState<fileType>(fileType.csv);
   const radioClassName = "accent-red-500 w-5 h-5";
-  const spanClassName = "py-1 w-fit gap-2 flex items-center text-xl"
+  const spanClassName = "py-1 w-fit gap-2 flex items-center text-xl";
   const [buttonString, setButtonString] = useState<ReactNode>("Generate");
   const [isDisabled, setIsDisabled] = useState(false);
   const generateFileRequest = useCallback(async () => {
@@ -71,62 +68,85 @@ function GenerateDataFile({
       );
       console.log(response);
       if (fileformat == fileType.csv)
-        await fileDownload(response.data, crypto.randomUUID() + ".csv");
+        await fileDownload(response.data, nanoid() + ".csv");
       else if (fileformat == fileType.xlsx)
-        await fileDownload(response.data, crypto.randomUUID() + ".xlsx");
+        await fileDownload(response.data, nanoid() + ".xlsx");
       else if (fileformat == fileType.shp)
-        await fileDownload(response.data, crypto.randomUUID() + ".zip");
-      setButtonString("Generate")
-      setIsDisabled(false)
+        await fileDownload(response.data, nanoid() + ".zip");
+      setButtonString("Generate");
+      setIsDisabled(false);
     }
     generator();
   }, [filterData, fileformat]);
 
   return (
     <Modal closeHandler={closeHandler}>
-      <div className='bg-white bg-opacity-75 p-4 rounded-lg'>
-        <div className='text-xl font-semibold'>
-          Select the type of data
-        </div>
-        <form action="" className='flex flex-col'>
+      <div className="bg-white bg-opacity-75 p-4 rounded-lg">
+        <div className="text-xl font-semibold">Select the type of data</div>
+        <form action="" className="flex flex-col">
           <span className={spanClassName}>
-            <input type="radio" name="some" id="csvGDF" className={radioClassName} onClick={() => {
-              setFileformat(fileType.csv)
-            }} />
+            <input
+              type="radio"
+              name="some"
+              id="csvGDF"
+              className={radioClassName}
+              defaultChecked
+              onClick={() => {
+                setFileformat(fileType.csv);
+              }}
+            />
             <label htmlFor="csvGDF">CSV</label>
           </span>
           <span className={spanClassName}>
-            <input type="radio" name="some" id="xlsxGDF" className={radioClassName} onClick={() => {
-              setFileformat(fileType.xlsx)
-            }} />
+            <input
+              type="radio"
+              name="some"
+              id="xlsxGDF"
+              className={radioClassName}
+              onClick={() => {
+                setFileformat(fileType.xlsx);
+              }}
+            />
             <label htmlFor="xlsxGDF">XLSX</label>
           </span>
           <span className={spanClassName}>
-            <input type="radio" name="some" id="shpGDF" className={radioClassName} onClick={() => {
-              setFileformat(fileType.shp);
-            }} />
+            <input
+              type="radio"
+              name="some"
+              id="shpGDF"
+              className={radioClassName}
+              onClick={() => {
+                setFileformat(fileType.shp);
+              }}
+            />
             <label htmlFor="shpGDF">SHP</label>
           </span>
           <span>
-
-            <Button disabled={isDisabled} onClick={async (event) => {
-              setButtonString("Generating..")
-              setIsDisabled(true);
-              event.preventDefault()
-              await generateFileRequest();
-
-            }} className='mt-2'>{buttonString}</Button>
-            <Button onClick={(event) => {
-              event.preventDefault()
-              closeHandler()
-            }}>
+            <Button
+              disabled={isDisabled}
+              onClick={async (event) => {
+                setButtonString("Generating..");
+                setIsDisabled(true);
+                event.preventDefault();
+                await generateFileRequest();
+              }}
+              className="mt-2"
+            >
+              {buttonString}
+            </Button>
+            <Button
+              onClick={(event) => {
+                event.preventDefault();
+                closeHandler();
+              }}
+            >
               Close
             </Button>
           </span>
         </form>
       </div>
     </Modal>
-  )
+  );
 }
 
-export default GenerateDataFile
+export default GenerateDataFile;

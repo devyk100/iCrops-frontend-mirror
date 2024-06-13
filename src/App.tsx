@@ -7,8 +7,9 @@ import {
   useRouteError,
 } from "react-router-dom";
 
-export const BACKEND_URL = "http://localhost/";
-export const startRoute = "/dashboard";
+// export const BACKEND_URL = "http://maps.icrisat.org/";
+export const BACKEND_URL = "http://localhost:8090/";
+export const startRoute = "/react";
 const router = createBrowserRouter([
   {
     path: startRoute + "/data",
@@ -59,7 +60,6 @@ import store from "./store";
 import { Provider } from "react-redux";
 function App() {
   // const [count, setCount] = useState(0)
-
   return (
     <>
       <Provider store={store}>
@@ -69,5 +69,4 @@ function App() {
     </>
   );
 }
-
 export default App;
