@@ -70,10 +70,10 @@ function TableRowComponent({
       name: "Cropping Pattern",
       value: false,
     },
-    // {
-    //   name: "Livestock",
-    //   value: false,
-    // },
+    {
+      name: "Livestock", // DO NOT COMMENT, CODE WILL BREAK
+      value: false,
+    },
     {
       name: "Primary Crop",
       value: false,
