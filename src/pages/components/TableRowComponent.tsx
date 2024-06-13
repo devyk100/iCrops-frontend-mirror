@@ -70,10 +70,10 @@ function TableRowComponent({
       name: "Cropping Pattern",
       value: false,
     },
-    {
-      name: "Livestock",
-      value: false,
-    },
+    // {
+    //   name: "Livestock",
+    //   value: false,
+    // },
     {
       name: "Primary Crop",
       value: false,
@@ -211,11 +211,11 @@ function TableRowComponent({
                   {CropInfo ? CropInfo.croppingPattern : null}
                 </td>
               ) : null}
-              {columnsVisibility[10].value ? (
+              {/* {columnsVisibility[10].value ? (
                 <td className="border-2 pr-2 border-t-0">
                   {CropInfo ? CropInfo.livestock : null}
                 </td>
-              ) : null}
+              ) : null} */}
               {columnsVisibility[11].value ? (
                 <td className="border-2 pr-2 border-t-0">
                   {CropInfo ? CropInfo.primaryCrop : null}

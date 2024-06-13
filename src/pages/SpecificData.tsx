@@ -16,7 +16,7 @@ export interface cropInfo {
   waterSource: string;
   cropGrowthStage: string;
   cropIntensity: string;
-  livestock: string;
+  // livestock: string;
   croppingPattern: string;
   primaryCrop: string;
   primarySeason: string;
@@ -126,10 +126,10 @@ export default function () {
                 <span className="font-bold">Crop intensity</span>:{" "}
                 {data.cropInformation[0].cropIntensity}
               </div>
-              <div>
+              {/* <div>
                 <span className="font-bold">Livestock</span>:{" "}
                 {data.cropInformation[0].livestock}
-              </div>
+              </div> */}
               <div>
                 <span className="font-bold">Cropping Pattern</span>:{" "}
                 {data.cropInformation[0].croppingPattern}

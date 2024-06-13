@@ -54,7 +54,7 @@ function GenerateDataFile({ closeHandler }: { closeHandler: () => void }) {
           primaryCrop: filterData.primaryCrop,
           secondarySeason: filterData.secondarySeason,
           secondaryCrop: filterData.secondaryCrop,
-          livestock: filterData.livestock,
+          // livestock: filterData.livestock,
           croppingPattern: filterData.croppingPattern,
           cropGrowthStage: filterData.cropGrowthStage,
           remarks: filterData.remarks,
